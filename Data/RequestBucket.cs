@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 namespace Tomat.TatsuSharp.Data
 {
     /// <summary>
-    ///     Simple struct allowing for parsing provided API headers. <br />
+    ///     Simple class allowing for parsing provided API headers. <br />
     ///     Adapted from: https://github.com/tatsuworks/tatsu-api-go/blob/main/bucket.go
     /// </summary>
-    public struct RequestBucket
+    public class RequestBucket
     {
         public byte Max;
         public byte Remaining;
@@ -24,7 +24,7 @@ namespace Tomat.TatsuSharp.Data
             ResetTime = resetTime;
         }
 
-        public Task<bool> Acquire()
+        public Task Acquire()
         {
             if (DateTime.Now > ResetTime)
                 Refill();
@@ -32,13 +32,13 @@ namespace Tomat.TatsuSharp.Data
             if (Remaining > 0)
             {
                 Remaining--;
-                return Task.FromResult(true);
+                return Task.CompletedTask;
             }
 
             Task.Delay(ResetTime.Subtract(DateTime.Now));
             Refill();
             Remaining--;
-            return Task.FromResult(false);
+            return Task.CompletedTask;
         }
 
         public Task Refill()
