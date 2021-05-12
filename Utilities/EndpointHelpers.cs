@@ -1,5 +1,10 @@
 ﻿namespace Tomat.TatsuSharp.Utilities
 {
+    /// <summary>
+    ///     Utility class for getting URLs for the Tatsu endpoint. <br />
+    ///     Uses API v1. <br />
+    ///     Adapted from: https://github.com/tatsuworks/tatsu-api-go/blob/main/endpoint.go
+    /// </summary>
     public static class EndpointHelpers
     {
         public const string BaseURL = "https://api.tatsu.gg/v1";

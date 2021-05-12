@@ -8,6 +8,10 @@ using Tomat.TatsuSharp.Utilities;
 
 namespace Tomat.TatsuSharp
 {
+    /// <summary>
+    ///     Core client class. Provides numerous methods for obtaining data. <br />
+    ///     Adapted from https://github.com/tatsuworks/tatsu-api-go/blob/main/rest_client.go and tid-bits of https://github.com/tatsuworks/tatsu-api-go/blob/main/client.go
+    /// </summary>
     public class TatsuClient
     {
         public string APIKey { get; }

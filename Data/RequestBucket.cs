@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Linq;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Tomat.TatsuSharp.Data
 {
+    /// <summary>
+    ///     Simple struct allowing for parsing provided API headers. <br />
+    ///     Adapted from: https://github.com/tatsuworks/tatsu-api-go/blob/main/bucket.go
+    /// </summary>
     public struct RequestBucket
     {
         public byte Max;

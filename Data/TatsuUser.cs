@@ -2,6 +2,10 @@
 
 namespace Tomat.TatsuSharp.Data
 {
+    /// <summary>
+    ///     Class containing basic user information, including credits, rep, tokens, and XP. <br />
+    ///     Adapted from: https://github.com/tatsuworks/tatsu-api-go/blob/main/struct.go#L21
+    /// </summary>
     public class TatsuUser
     {
         [JsonPropertyName("avatar_url")] public string AvatarURL { get; set; }
