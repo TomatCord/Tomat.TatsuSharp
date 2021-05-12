@@ -17,8 +17,12 @@ namespace Tomat.TatsuSharp.Utilities
         /// <param name="userAgent">The user agent, defaults to Tomat.TatsuSharp, can seemingly be whatever you want.</param>
         public static async Task<HttpClient> SetHeaders(HttpClient client, string apiKey, string userAgent = "Tomat.TatsuSharp (Stevie, https://www.github.com/TomatCord/Tomat.TatsuSharp)")
         {
-            client.DefaultRequestHeaders.Add("Authorization", apiKey);
-            client.DefaultRequestHeaders.Add("User-Agent", userAgent);
+            if (!client.DefaultRequestHeaders.Contains("Authorization")) 
+                client.DefaultRequestHeaders.Add("Authorization", apiKey);
+
+            if (!client.DefaultRequestHeaders.Contains("User-Agent"))
+                client.DefaultRequestHeaders.Add("User-Agent", userAgent);
+
             return await Task.FromResult(client);
         }
     }
