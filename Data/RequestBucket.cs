@@ -24,7 +24,7 @@ namespace Tomat.TatsuSharp.Data
             ResetTime = resetTime;
         }
 
-        public async Task<bool> Acquire()
+        public async Task Acquire()
         {
             if (DateTime.Now > ResetTime)
                 await Refill();
@@ -32,13 +32,14 @@ namespace Tomat.TatsuSharp.Data
             if (Remaining > 0)
             {
                 Remaining--;
-                return await Task.FromResult(true);
+                await Task.CompletedTask;
+                return;
             }
 
             await Task.Delay(ResetTime.Subtract(DateTime.Now));
             await Refill();
             Remaining--;
-            return await Task.FromResult(false);
+            await Task.CompletedTask;
         }
 
         public Task Refill()
