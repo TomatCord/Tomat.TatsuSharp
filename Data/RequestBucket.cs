@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -35,7 +36,16 @@ namespace Tomat.TatsuSharp.Data
                 return Task.CompletedTask;
             }
 
-            Task.Delay(ResetTime.Subtract(DateTime.Now));
+            try
+            {
+                Task.Delay(ResetTime.Subtract(DateTime.Now));
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                // ignore
+                // can be thrown when millisecondsDelay < -1 which is cringe
+            }
+
             Refill();
             Remaining--;
             return Task.CompletedTask;
@@ -50,12 +60,12 @@ namespace Tomat.TatsuSharp.Data
 
         public Task ParseHeaders(HttpResponseHeaders headers)
         {
-            if (!headers.GetValues("X-RateLimit-Remaining").Any() ||
-                !headers.GetValues("X-RateLimit-Reset").Any())
+            if (!headers.TryGetValues("X-RateLimit-Remaining", out IEnumerable<string> remainingHeaders) ||
+                !headers.TryGetValues("X-RateLimit-Reset", out IEnumerable<string> resetHeaders))
                 return Task.CompletedTask;
 
-            string remainingHeader = headers.GetValues("X-RateLimit-Remaining").First();
-            string resetHeader = headers.GetValues("X-RateLimit-Reset").First();
+            string remainingHeader = remainingHeaders.First();
+            string resetHeader = resetHeaders.First();
 
             if (!int.TryParse(remainingHeader, out int remaining))
                 throw new Exception("remaining");
@@ -65,6 +75,7 @@ namespace Tomat.TatsuSharp.Data
 
             Remaining = (byte) remaining;
             ResetTime = DateTime.UnixEpoch.AddSeconds(reset);
+
             return Task.CompletedTask;
         }
     }
