@@ -7,14 +7,26 @@
     /// </summary>
     public static class EndpointHelpers
     {
+        /// <summary>
+        ///     The base endpoint URL to use. Currently API v1.
+        /// </summary>
         public const string BaseURL = "https://api.tatsu.gg/v1";
 
+        /// <summary>
+        ///     Get an endpoint URL using the given parameters.
+        /// </summary>
         public static string GetAllTimeGuildMemberRanking(string guildID, string userID) =>
             $"{BaseURL}/guilds/{guildID}/rankings/members/{userID}/all";
 
+        /// <summary>
+        ///     Get an endpoint URL using the given parameters.
+        /// </summary>
         public static string GetAllTimeGuildRankings(string guildID, ulong offset) =>
             $"{BaseURL}/guilds/{guildID}/rankings/all?offset={offset}";
 
+        /// <summary>
+        ///     Get an endpoint URL using the given parameters.
+        /// </summary>
         public static string GetUserProfile(string userID) =>
             $"{BaseURL}/users/{userID}/profile";
     }
