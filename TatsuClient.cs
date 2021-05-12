@@ -67,8 +67,7 @@ namespace Tomat.TatsuSharp
 
         private async Task<TType> Get<TType>(string endpoint) where TType : class
         {
-            if (!await Bucket.Acquire())
-                throw new Exception("Rate-limited.");
+            await Bucket.Acquire();
 
             Client = await TatsuRequestHelper.SetHeaders(Client, APIKey);
 
