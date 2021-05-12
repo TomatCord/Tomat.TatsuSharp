@@ -32,13 +32,13 @@ namespace Tomat.TatsuSharp.Data
             if (Remaining > 0)
             {
                 Remaining--;
-                return await Task.FromResult(false);
+                return await Task.FromResult(true);
             }
 
             await Task.Delay(ResetTime.Subtract(DateTime.Now));
             await Refill();
             Remaining--;
-            return await Task.FromResult(true);
+            return await Task.FromResult(false);
         }
 
         public Task Refill()
