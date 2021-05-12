@@ -38,7 +38,7 @@ namespace Tomat.TatsuSharp
             APIKey = apiKey;
             Bucket = new RequestBucket(60, 60,
                 TimeSpan.FromMinutes(1),
-                DateTime.Now.Add(TimeSpan.FromMinutes(1)));
+                DateTime.UtcNow.Add(TimeSpan.FromMinutes(1)));
             Client = new HttpClient();
         }
 
@@ -74,8 +74,8 @@ namespace Tomat.TatsuSharp
             using HttpResponseMessage response = await Client.GetAsync(endpoint);
             await Bucket.ParseHeaders(response.Headers);
 
-            if (response.StatusCode != HttpStatusCode.OK)
-                throw new Exception(response.StatusCode.ToString());
+            //if (response.StatusCode != HttpStatusCode.OK)
+            //    throw new Exception(response.StatusCode.ToString());
 
             return await Task.FromResult(JsonSerializer.Deserialize<TType>(await response.Content.ReadAsStringAsync()));
         }

@@ -25,36 +25,30 @@ namespace Tomat.TatsuSharp.Data
             ResetTime = resetTime;
         }
 
-        public Task Acquire()
+        public async Task Acquire()
         {
-            if (DateTime.Now > ResetTime)
-                Refill();
+            if (DateTime.UtcNow > ResetTime)
+                await Refill();
 
             if (Remaining > 0)
             {
                 Remaining--;
-                return Task.CompletedTask;
+                return;
+            }
+            
+            while (ResetTime > DateTime.UtcNow)
+            {
+                Console.WriteLine(ResetTime.Subtract(DateTime.UtcNow));
             }
 
-            try
-            {
-                Task.Delay(ResetTime.Subtract(DateTime.Now));
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                // ignore
-                // can be thrown when millisecondsDelay < -1 which is cringe
-            }
-
-            Refill();
+            await Refill();
             Remaining--;
-            return Task.CompletedTask;
         }
 
         public Task Refill()
         {
             Remaining = Max;
-            ResetTime = DateTime.Now.Add(ResetInterval);
+            ResetTime = DateTime.UtcNow.Add(ResetInterval);
             return Task.CompletedTask;
         }
 
