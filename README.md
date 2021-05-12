@@ -29,5 +29,9 @@ Usage is incredibly simple. All you need to do is add the assembly as an assembl
                 }.Build());
 ```
 
+Here's what the output looks like:
+
+![image](https://user-images.githubusercontent.com/27323911/117924059-013ea800-b2aa-11eb-9afb-4024e3eb757b.png)
+
 ## Rate Limiting
 You should be automatically rate-limited after attempting to make `60` requests in a single minute. Your remaining requests are reset to `60` every minute.
