@@ -79,7 +79,7 @@ namespace Tomat.TatsuSharp
             await Bucket.ParseHeaders(response.Headers);
 
             if (response.StatusCode != HttpStatusCode.OK)
-                throw new Exception("r u ok");
+                throw new Exception(response.StatusCode.ToString());
 
             return await Task.FromResult(JsonSerializer.Deserialize<TType>(await response.Content.ReadAsStringAsync()));
         }
