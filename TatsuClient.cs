@@ -47,6 +47,7 @@ namespace Tomat.TatsuSharp
         /// </summary>
         /// <param name="guildID">The guild you want to get rankings from.</param>
         /// <param name="userID">The ID of the user who you want to get the rankings of.</param>
+        /// <exception cref="RateLimitException">Thrown if the Tatsu rate limit is exceeded.</exception>
         public async Task<TatsuGuildMemberRanking> GetAllTimeGuildMemberRanking(string guildID, string userID) =>
             await Get<TatsuGuildMemberRanking>(EndpointHelpers.GetAllTimeGuildMemberRanking(guildID, userID));
 
@@ -55,6 +56,7 @@ namespace Tomat.TatsuSharp
         /// </summary>
         /// <param name="guildID">The ID of the guild.</param>
         /// <param name="offset">The offset.</param>
+        /// <exception cref="RateLimitException">Thrown if the Tatsu rate limit is exceeded.</exception>
         public async Task<TatsuGuildRankings> GetAllTimeGuildRankings(string guildID, ulong offset) =>
             await Get<TatsuGuildRankings>(EndpointHelpers.GetAllTimeGuildRankings(guildID, offset));
 
@@ -62,12 +64,15 @@ namespace Tomat.TatsuSharp
         ///     Gets a universal user profile (<see cref="TatsuUser"/>) used across the entirety of Tatsu.
         /// </summary>
         /// <param name="userID">The ID of the user you want to access.</param>
+        /// <exception cref="RateLimitException">Thrown if the Tatsu rate limit is exceeded.</exception>
         public async Task<TatsuUser> GetUserProfile(string userID) =>
             await Get<TatsuUser>(EndpointHelpers.GetUserProfile(userID));
 
         private async Task<TType> Get<TType>(string endpoint) where TType : class
         {
-            await Bucket.Acquire();
+            if (!await Bucket.Acquire())
+                throw new RateLimitException();
+
             Client = await TatsuRequestHelper.SetHeaders(Client, APIKey);
 
             using HttpResponseMessage response = await Client.GetAsync(endpoint);
