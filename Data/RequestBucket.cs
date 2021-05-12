@@ -60,7 +60,7 @@ namespace Tomat.TatsuSharp.Data
                 throw new Exception("reset");
 
             Remaining = (byte) remaining;
-            ResetTime = DateTime.Parse(reset.ToString());
+            ResetTime = DateTime.UnixEpoch.AddSeconds(reset);
             return Task.CompletedTask;
         }
     }
