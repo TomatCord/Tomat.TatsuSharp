@@ -33,5 +33,7 @@ Here's what the output looks like:
 
 ![image](https://user-images.githubusercontent.com/27323911/117924059-013ea800-b2aa-11eb-9afb-4024e3eb757b.png)
 
+The general idea is the same for all deserializable types provided. You simply need to initialize a client and all the available methods, which will spit back a deserialized JSON if the given parameters are correct. Rate limiting happens across a singular client instance, so it's advised to only use one instance, as any more won't avoid the rate limit, you'll just get smacked with an error code anyway, and your API key could get revoked if it happens to often.
+
 ## Rate Limiting
-You should be automatically rate-limited after attempting to make `60` requests in a single minute. Your remaining requests are reset to `60` every minute.
+You should be automatically rate-limited after attempting to make `60` requests in a single minute. Your remaining requests are reset to `60` every minute. Rate limiting is handled by the `RequestBucket` instance in your `TatsuClient`.
