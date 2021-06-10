@@ -38,7 +38,8 @@ namespace Tomat.TatsuSharp.Data
             
             while (ResetTime > DateTime.UtcNow)
             {
-                Console.WriteLine(ResetTime.Subtract(DateTime.UtcNow));
+                // Debug
+                // Console.WriteLine(ResetTime.Subtract(DateTime.UtcNow));
             }
 
             await Refill();
